@@ -22,6 +22,8 @@ EVAL_EVERY = 200          # how often (in episodes) we check greedy performance 
 EVAL_EPISODES_DURING = 100  # cheap eval used for the learning-curve checkpoints
 EVAL_EPISODES_FINAL = 500  
 
+ALPHA = 0.1
+
 def train_nstep_sarsa(n, seed):
     env = SupplyRunEnv(max_steps=MAX_STEPS)
     eval_env = SupplyRunEnv(max_steps=MAX_STEPS)

@@ -1,10 +1,9 @@
 from collections import defaultdict
 
-OPTIMISTIC_INIT = 0
-
+OPTIMISTIC_INIT = 30.0
 
 def make_q():
-    return defaultdict(float)
+    return defaultdict(lambda: OPTIMISTIC_INIT)
 
 def epsilon_greedy(Q, state, epsilon, n_actions, rng):
     if rng.random() < epsilon:
@@ -41,27 +40,20 @@ def run_nstep_sarsa_episode(env, Q, n, alpha, gamma, epsilon, rng):
 
             if terminated:
                 T = t + 1
-            elif truncated:
-                T = t + 1
-                was_truncated = True
             else:
                 actions[t + 1] = epsilon_greedy(Q, next_state, epsilon, n_actions, rng)
+                if truncated:
+                    T = t + 1
+                    was_truncated = True
 
         tau = t - n + 1
         if tau >= 0:
-            hi = min(tau + n, T)
+            end = min(tau + n, T)
             G = 0.0
-            for i in range(tau + 1, hi + 1):
+            for i in range(tau + 1, end + 1):
                 G += (gamma ** (i - tau - 1)) * rewards[i]
-
-            if tau + n < T:
-                G += (gamma ** n) * Q[(states[tau + n], actions[tau + n])]
-            elif was_truncated:
-                # ran past the truncation point - bootstrap from the last
-                # state/action we actually reached instead of using 0
-                last = T - 1
-                G += (gamma ** (last - tau)) * Q[(states[last], actions[last])]
-            # else: real terminal state and window reaches it -> no bootstrap term
+            if end < T or was_truncated:
+                G += (gamma ** (end - tau)) * Q[(states[end], actions[end])]
 
             s_tau, a_tau = states[tau], actions[tau]
             Q[(s_tau, a_tau)] += alpha * (G - Q[(s_tau, a_tau)])

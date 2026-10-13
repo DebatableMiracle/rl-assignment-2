@@ -1,6 +1,6 @@
 import numpy as np
 
-Q_INIT = 0
+Q_INIT = 49
 
 
 def epsilon_greedy(Q, s, epsilon, rng):

@@ -14,6 +14,9 @@ ARROW = ["↑", "↓", "←", "→"]
 VMIN, VMAX = -50, 50          # colour clip; chasm-bound actions (~-101) just saturate
 
 
+p_wind = 0.02
+sigma =  5
+
 def valid(r, c):
     return not is_chasm(r, c) and (r, c) not in (FERRY, GOAL)
 
@@ -59,7 +62,7 @@ def heat(ax, grid, title, annotate=True):
 
 all_visits = {}
 for name, fn in ALGOS:
-    env = BridgeAndFerryEnv(p_wind=0.0, sigma=0.0)
+    env = BridgeAndFerryEnv(p_wind=p_wind, sigma=sigma)
     Q, _, visits = fn(env, episodes, seed=seed, q_init=q_init)
     all_visits[name] = visits.reshape(env.n_rows, env.n_cols)
     g, V, arrows = build(env, Q)
@@ -91,7 +94,7 @@ for name, fn in ALGOS:
     fig.colorbar(im, ax=list(axes.flat[:5]), shrink=0.6,
                  label=f"Q (colour clipped to [{VMIN}, {VMAX}])")
     fig.suptitle(f"{name} | q_init={q_init:g} | {episodes} episodes | seed {seed}")
-    fig.savefig(f"qvalues_{name}_init{q_init:g}_{episodes}.png", dpi=150)
+    fig.savefig(f"qvalues_{name}_init{q_init:g}_pwind{p_wind:g}_sigma{sigma:g}_{episodes}.png", dpi=150)
 
 # where did the agent actually go? (explains why values never propagate)
 fig, axes = plt.subplots(1, 3, figsize=(18, 4.5), constrained_layout=True)
@@ -101,5 +104,5 @@ for ax, (name, v) in zip(axes, all_visits.items()):
     mark(ax, color="red")
     fig.colorbar(im, ax=ax, shrink=0.8)
 fig.suptitle(f"State visits during training | q_init={q_init:g} | {episodes} episodes | seed {seed}")
-fig.savefig(f"visits_init{q_init:g}_{episodes}.png", dpi=150)
+fig.savefig(f"visits_init{q_init:g}_pwind{p_wind:g}_sigma{sigma:g}_{episodes}.png")
 plt.show()

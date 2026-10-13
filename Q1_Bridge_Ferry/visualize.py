@@ -3,20 +3,29 @@ import matplotlib.pyplot as plt
 from env import N_ROWS, N_COLS
 
 
-def plot_learning_curves(curves, save_path):
-    plt.figure(figsize=(7, 5))
-    for name, (mean, se) in curves.items():
-        x = np.arange(len(mean))
+def moving_average(x, w):
+    """x: (n_seeds, n_episodes) -> (n_seeds, n_episodes - w + 1), mean over each window of w episodes."""
+    c = np.cumsum(np.insert(x, 0, 0.0, axis=1), axis=1)
+    return (c[:, w:] - c[:, :-w]) / w
+
+
+def plot_learning_curves(online_by_algo, save_path, window=1000):
+    """online_by_algo: {algo_name: array of shape (n_seeds, n_episodes)}"""
+    plt.figure(figsize=(8, 5))
+    for name, online_all in online_by_algo.items():
+        sm = moving_average(online_all, window)              # smooth each seed first
+        mean = sm.mean(axis=0)
+        se = sm.std(axis=0, ddof=1) / np.sqrt(sm.shape[0])   # SE across seeds
+        x = np.arange(window, online_all.shape[1] + 1)       # episode at the end of each window
         plt.plot(x, mean, label=name)
-        plt.fill_between(x, mean - se, mean + se, alpha=0.2)
+        plt.fill_between(x, mean - se, mean + se, alpha=0.25)
     plt.xlabel("Training episode")
-    plt.ylabel("Online return")
+    plt.ylabel(f"Online return ({window}-episode moving average)")
     plt.title("Online (during-training) return")
     plt.legend()
     plt.tight_layout()
     plt.savefig(save_path, dpi=150)
     plt.close()
-
 
 def plot_greedy_bar(greedy_means, greedy_sems, save_path):
     names = list(greedy_means.keys())

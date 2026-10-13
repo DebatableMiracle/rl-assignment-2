@@ -7,7 +7,7 @@ from analysis import solve_p_star, run_pwind_sweep, run_sigma_sweep
 from visualize import (plot_learning_curves, plot_greedy_bar, plot_heatmap,
                         plot_pwind_sweep, plot_sigma_return, plot_sigma_policy)
 
-N_TRAIN_EPISODES = 100000    
+N_TRAIN_EPISODES = 50000    
 SWEEP_TRAIN_EPISODES = 10000   
 N_SEEDS = 10
 EPSILON, ALPHA, GAMMA, MAX_STEPS = 0.1, 0.1, 1.0, 500
@@ -36,9 +36,7 @@ def stage_iii():
             greedy_all.append(mean_ret)
             non_term_total += non_term
 
-        mean_curve = online_all.mean(axis=0)
-        se_curve = online_all.std(axis=0, ddof=1) / np.sqrt(N_SEEDS)
-        online_curves[algo] = (mean_curve, se_curve)
+        online_curves[algo] = online_all      # shape (N_SEEDS, N_TRAIN_EPISODES)
 
         greedy_all = np.array(greedy_all)
         n_valid = int(np.sum(~np.isnan(greedy_all)))

@@ -1,0 +1,150 @@
+{
+  "settings": {
+    "episodes": 8000,
+    "seeds": 10,
+    "gamma": 0.99,
+    "alpha": 0.1,
+    "epsilon": 0.1,
+    "max_steps": 200
+  },
+  "n_values": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24,
+    32
+  ],
+  "nstep_sarsa": {
+    "1": {
+      "mean_greedy_return": 0.0,
+      "std_greedy_return": 0.0,
+      "per_seed_greedy_returns": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "2": {
+      "mean_greedy_return": 10.0,
+      "std_greedy_return": 30.0,
+      "per_seed_greedy_returns": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        100.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "4": {
+      "mean_greedy_return": 0.0,
+      "std_greedy_return": 0.0,
+      "per_seed_greedy_returns": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "8": {
+      "mean_greedy_return": 0.0,
+      "std_greedy_return": 0.0,
+      "per_seed_greedy_returns": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "16": {
+      "mean_greedy_return": 0.0,
+      "std_greedy_return": 0.0,
+      "per_seed_greedy_returns": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "24": {
+      "mean_greedy_return": 0.0,
+      "std_greedy_return": 0.0,
+      "per_seed_greedy_returns": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "32": {
+      "mean_greedy_return": 0.0,
+      "std_greedy_return": 0.0,
+      "per_seed_greedy_returns": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  },
+  "q_learning": {
+    "mean_greedy_return": -1.6,
+    "std_greedy_return": 0.459913035257754,
+    "per_seed_greedy_returns": [
+      -1.44,
+      -2.2,
+      -0.96,
+      -1.0,
+      -1.44,
+      -1.56,
+      -1.8,
+      -1.4,
+      -2.52,
+      -1.68
+    ]
+  },
+  "best_n": 2
+}
